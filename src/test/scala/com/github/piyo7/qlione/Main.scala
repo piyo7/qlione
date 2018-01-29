@@ -26,7 +26,7 @@ object Main {
         (Rz(Pi / 2).C x I) |>
         (Rz(Pi / 4) x I).C |>
         (I x H x I) |>
-        (I x Rz(math.Pi / 2).C) |>
+        (I x Rz(Pi / 2).C) |>
         (I x I x H)
 
     println(result)
