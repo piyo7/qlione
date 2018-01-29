@@ -57,7 +57,7 @@ class QuMatrix[A <: _OptNat, B <: _OptNat] private(val map: Map[(Int, Int), Comp
 
   override def toString: String = {
     val aBitsSize = vA().getOrElse(map.keys.map(_._1).max.bitsSize)
-    val bBitsSize = vB().getOrElse(map.keys.map(_._1).max.bitsSize)
+    val bBitsSize = vB().getOrElse(map.keys.map(_._2).max.bitsSize)
 
     (for {
       ((a, b), v) <- map.toSeq.sortBy(_._1)
