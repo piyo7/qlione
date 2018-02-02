@@ -15,9 +15,11 @@ object Main {
     for (_ <- 0 to 10) {
       val result = (bit0 x bit1) |>>
         (H x H) |>>
-        measure[_0, _2] |>>
-        measure[_1, _2]
-      println(result.getClassic)
+        (_.measure[_0]) |>>
+        (_.measure[_1]) |>>
+        (_.getClassic)
+
+      println(result)
     }
 
     val result: QuBits[_3] =

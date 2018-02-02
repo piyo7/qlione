@@ -10,6 +10,22 @@ class QuBits[A <: _Nat] private(val matrix: QuMatrix[A, _0]) {
     QuBits(matrix x that.matrix)
   }
 
+  def measure[M <: _Nat](implicit m: _value[M], lMA: _lt[M, A], random: Random): QuBits[A] = {
+    implicit val vA: _value[A] = matrix.vA
+
+    val grouped = matrix.map.groupBy { case ((a, _), _) => (a / m().get.pow2) % 2 }
+    QuBits(QuMatrix[A, _0](if (grouped.getOrElse(0, Map()).map(_._2.abs2).sum <= random.nextDouble()) {
+      grouped.getOrElse(0, Map())
+    } else {
+      grouped.getOrElse(1, Map())
+    }))
+  }
+
+  def measureAll(implicit random: Random): Int = {
+    val candidates = matrix.map.toSeq.map { case ((a, _), v) => (a, v.abs2) }.scanLeft((0, 0.0)) { case (l, r) => (r._1, l._2 + r._2) }.tail
+    candidates.find(_._2 >= random.nextDouble()).map(_._1).getOrElse(candidates.last._1)
+  }
+
   def getClassic: Option[Int] = {
     if (matrix.map.size == 1) {
       Some(matrix.map.map(_._1._1).head)
@@ -19,7 +35,7 @@ class QuBits[A <: _Nat] private(val matrix: QuMatrix[A, _0]) {
   def |>[B](f: QuBits[A] => B): B = f(this)
 
   def |>>[B](f: QuBits[A] => B): B = {
-    QuBits.peek[A](this)
+    println(this)
     |>(f)
   }
 
@@ -36,27 +52,6 @@ object QuBits {
     val abs2 = matrix.map.map(_._2.abs2).sum
     assert(abs2 > 0, matrix.toString)
     new QuBits(matrix / math.sqrt(abs2))
-  }
-
-  def measure[M <: _Nat, A <: _Nat](implicit m: _value[M], lMA: _lt[M, A], random: Random): QuBits[A] => QuBits[A] = bits => {
-    implicit val vA: _value[A] = bits.matrix.vA
-
-    val grouped = bits.matrix.map.groupBy { case ((a, _), _) => (a / m().get.pow2) % 2 }
-    QuBits(QuMatrix[A, _0](if (grouped.getOrElse(0, Map()).map(_._2.abs2).sum <= random.nextDouble()) {
-      grouped.getOrElse(0, Map())
-    } else {
-      grouped.getOrElse(1, Map())
-    }))
-  }
-
-  def measureAll[A <: _Nat](implicit vA: _value[A], random: Random): QuBits[A] => Int = bits => {
-    val candidates = bits.matrix.map.toSeq.map { case ((a, _), v) => (a, v.abs2) }.scanLeft((0, 0.0)) { case (l, r) => (r._1, l._2 + r._2) }.tail
-    candidates.find(_._2 >= random.nextDouble()).map(_._1).getOrElse(candidates.last._1)
-  }
-
-  def peek[A <: _Nat]: QuBits[A] => QuBits[A] = bits => {
-    println(bits)
-    bits
   }
 
   def apply[A <: _Nat](seq: Seq[Complex])(implicit vA: _value[A]): QuBits[A] = {
