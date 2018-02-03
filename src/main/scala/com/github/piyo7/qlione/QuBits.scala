@@ -10,15 +10,16 @@ class QuBits[A <: _Nat] private(val matrix: QuMatrix[A, _0]) {
     QuBits(matrix x that.matrix)
   }
 
-  def measure[M <: _Nat](implicit m: _value[M], lMA: _lt[M, A], random: Random): QuBits[A] = {
+  def measure[M <: _Nat](implicit pA: _pre[A], vM: _value[M], gMA: _gt[A, M], random: Random): QuBits.Measured[A, pA.Out, M] = {
     implicit val vA: _value[A] = matrix.vA
+    implicit val vpA: _value[pA.Out] = pA.vOut
 
-    val grouped = matrix.map.groupBy { case ((a, _), _) => (a / m().get.pow2) % 2 }
-    QuBits(QuMatrix[A, _0](if (grouped.getOrElse(0, Map()).map(_._2.abs2).sum <= random.nextDouble()) {
-      grouped.getOrElse(0, Map())
+    val grouped = matrix.map.groupBy { case ((a, _), _) => a.bit(vM().get) }
+    if (grouped.getOrElse(0, Map()).map(_._2.abs2).sum <= random.nextDouble()) {
+      new QuBits.Measured(false, grouped.getOrElse(0, Map()))
     } else {
-      grouped.getOrElse(1, Map())
-    }))
+      new QuBits.Measured(true, grouped.getOrElse(1, Map()))
+    }
   }
 
   def measureAll(implicit random: Random): Int = {
@@ -46,8 +47,14 @@ class QuBits[A <: _Nat] private(val matrix: QuMatrix[A, _0]) {
   override def toString: String = matrix.toString
 }
 
-
 object QuBits {
+
+  class Measured[A <: _Nat, B <: _Nat, M <: _Nat] private[QuBits](val result: Boolean, map: Map[(Int, Int), Complex])(implicit vA: _value[A], vB: _value[B], vM: _value[M]) {
+    def bits: QuBits[A] = QuBits(QuMatrix[A, _0](map))
+
+    def unmeasured: QuBits[B] = QuBits(QuMatrix[B, _0](map.map { case ((a, b), v) => ((a.dropBit(vM().get), b), v) }))
+  }
+
   def apply[A <: _Nat](matrix: QuMatrix[A, _0]): QuBits[A] = {
     val abs2 = matrix.map.map(_._2.abs2).sum
     assert(abs2 > 0, matrix.toString)

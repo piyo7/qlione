@@ -22,12 +22,38 @@ object _value {
   implicit def valueSuc[A <: _Nat](implicit a: _value[A]): _value[_suc[A]] = _value(a().map(_ + 1))
 }
 
+case class _gt[A <: _OptNat, B <: _OptNat]()
+
+object _gt {
+  implicit def gt0[A <: _Nat]: _gt[_suc[A], _0] = _gt()
+
+  implicit def gtSuc[A <: _Nat, B <: _Nat](implicit ab: _gt[A, B]): _gt[_suc[A], _suc[B]] = _gt()
+}
+
 case class _lt[A <: _OptNat, B <: _OptNat]()
 
 object _lt {
   implicit def lt0[A <: _Nat]: _lt[_0, _suc[A]] = _lt()
 
   implicit def ltSuc[A <: _Nat, B <: _Nat](implicit ab: _lt[A, B]): _lt[_suc[A], _suc[B]] = _lt()
+}
+
+trait _pre[A <: _OptNat] {
+  type Out <: _Nat
+  val vOut: _value[Out]
+}
+
+object _pre {
+  type Aux[A <: _Nat, B <: _Nat] =
+    _pre[A] {
+      type Out = B
+    }
+
+  implicit def preSuc[A <: _Nat](implicit vA: _value[A]): Aux[_suc[A], A] =
+    new _pre[_suc[A]] {
+      type Out = A
+      val vOut: _value[A] = vA
+    }
 }
 
 trait _plus[A <: _OptNat, B <: _OptNat] {
