@@ -7,7 +7,7 @@ import org.scalatest.{FunSuite, Matchers}
 
 import scala.math.{log, Pi}
 
-class ComplexText extends FunSuite with Matchers {
+class ComplexTest extends FunSuite with Matchers {
   implicit val doubleEq: Equality[Double] = TolerantNumerics.tolerantDoubleEquality(1e-4)
 
   implicit def complexEquality(implicit doubleEq: Equality[Double]): Equality[Complex] = {
