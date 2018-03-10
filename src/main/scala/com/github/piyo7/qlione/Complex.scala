@@ -21,9 +21,9 @@ case class Complex(re: Double, im: Double) {
 
   def abs: Double = math.sqrt(abs2)
 
-  def radian: Double = math.atan2(re, im)
+  def rad: Double = math.atan2(re, im)
 
-  def degree: Double = math.toDegrees(radian)
+  def deg: Double = math.toDegrees(rad)
 }
 
 object Complex {

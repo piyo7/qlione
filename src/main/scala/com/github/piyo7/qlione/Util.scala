@@ -1,6 +1,7 @@
 package com.github.piyo7.qlione
 
 object Util {
+  def √(x: Double): Double = math.sqrt(x)
 
   implicit class RichInt(val i: Int) extends AnyVal {
     def pow2: Int = math.pow(2, i).round.toInt
