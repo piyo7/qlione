@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/piyo7/qlione.svg?style=svg)](https://circleci.com/gh/piyo7/qlione)
+
 # Qlione
 
 Qlione is a quantum simulator with pretty circuit DSL in Scala.
