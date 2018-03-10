@@ -2,7 +2,7 @@ package com.github.piyo7.qlione
 
 import com.github.piyo7.qlione.Complex._
 import com.github.piyo7.qlione.Util.RichInt
-import com.github.piyo7.qlione._Nat._
+import com.github.piyo7.qlione._OptNat._
 
 class QuGate[A <: _Nat] private(val matrix: QuMatrix[A, A]) {
   def t: QuGate[A] = {

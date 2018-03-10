@@ -2,6 +2,7 @@ package com.github.piyo7.qlione
 
 import com.github.piyo7.qlione.Complex._
 import com.github.piyo7.qlione.Util.RichInt
+import com.github.piyo7.qlione._OptNat._
 
 class QuMatrix[A <: _OptNat, B <: _OptNat] private(val map: Map[(Int, Int), Complex])(implicit val vA: _value[A], val vB: _value[B]) {
   def bits[C <: _Nat](implicit eA: A =:= _none, eB: B =:= _0, vC: _value[C]): QuBits[C] = {

@@ -5,7 +5,7 @@ import java.util.Random
 import com.github.piyo7.qlione.Complex._
 import com.github.piyo7.qlione.QuBits._
 import com.github.piyo7.qlione.QuGate._
-import com.github.piyo7.qlione._Nat._
+import com.github.piyo7.qlione._OptNat._
 
 import scala.annotation.tailrec
 import scala.math.Pi

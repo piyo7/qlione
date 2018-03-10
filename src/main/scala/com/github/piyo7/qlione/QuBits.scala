@@ -3,14 +3,14 @@ package com.github.piyo7.qlione
 import java.util.Random
 
 import com.github.piyo7.qlione.Util.RichInt
-import com.github.piyo7.qlione._Nat._
+import com.github.piyo7.qlione._OptNat._
 
 class QuBits[A <: _Nat] private(val matrix: QuMatrix[A, _0]) {
   def x[B <: _Nat](that: QuBits[B])(implicit c: _plus[A, B]): QuBits[c.Out] = {
     QuBits(matrix x that.matrix)
   }
 
-  def measure[M <: _Nat](implicit pA: _pre[A], vM: _value[M], gMA: _gt[A, M], random: Random): QuBits.Measured[A, pA.Out, M] = {
+  def measure[M <: _Nat](implicit pA: _pre[A], vM: _value[M], lMA: M _lt A, random: Random): QuBits.Measured[A, pA.Out, M] = {
     implicit val vA: _value[A] = matrix.vA
     implicit val vpA: _value[pA.Out] = pA.vOut
 
