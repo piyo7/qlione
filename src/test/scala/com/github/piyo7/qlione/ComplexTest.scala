@@ -11,12 +11,9 @@ class ComplexTest extends FunSuite with Matchers {
   implicit val doubleEq: Equality[Double] = TolerantNumerics.tolerantDoubleEquality(1e-4)
 
   implicit def complexEquality(implicit doubleEq: Equality[Double]): Equality[Complex] = {
-    (a: Complex, b: Any) =>
-      b match {
-        case bc: Complex =>
-          doubleEq.areEqual(a.re, bc.re) && doubleEq.areEqual(a.im, bc.im)
-        case _ => false
-      }
+    case (a: Complex, b: Complex) =>
+      doubleEq.areEqual(a.re, b.re) && doubleEq.areEqual(a.im, b.im)
+    case _ => false
   }
 
   test("unary_-") {
