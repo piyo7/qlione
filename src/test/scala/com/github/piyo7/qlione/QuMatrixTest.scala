@@ -1,9 +1,10 @@
 package com.github.piyo7.qlione
 
 import com.github.piyo7.qlione.Complex._
-import com.github.piyo7.qlione.Util.√
 import com.github.piyo7.qlione._OptNat._
 import org.scalatest.{FunSuite, Matchers}
+
+import scala.math.{sqrt => √}
 
 class QuMatrixTest extends FunSuite with Matchers {
   test("t") {

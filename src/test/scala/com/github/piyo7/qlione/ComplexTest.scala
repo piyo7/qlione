@@ -1,11 +1,10 @@
 package com.github.piyo7.qlione
 
 import com.github.piyo7.qlione.Complex._
-import com.github.piyo7.qlione.Util.√
 import org.scalactic.{Equality, TolerantNumerics}
 import org.scalatest.{FunSuite, Matchers}
 
-import scala.math.{log, Pi}
+import scala.math.{Pi, log, sqrt => √}
 
 class ComplexTest extends FunSuite with Matchers {
   implicit val doubleEq: Equality[Double] = TolerantNumerics.tolerantDoubleEquality(1e-4)
