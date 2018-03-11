@@ -17,46 +17,46 @@ class ComplexTest extends FunSuite with Matchers {
   }
 
   test("unary_-") {
-    -(1 - 2.i) should equal (-1 + 2.i)
+    -(1 - 2.i) shouldEqual (-1 + 2.i)
   }
 
   test("+") {
-    ((1.2 + 3.4.i) + (-5.6 + 7.8.i)) should equal (-4.4 + 11.2.i)
+    (1.2 + 3.4.i) + (-5.6 + 7.8.i) shouldEqual -4.4 + 11.2.i
   }
 
   test("-") {
-    ((1.2 + 3.4.i) - (-5.6 + 7.8.i)) should equal (6.8 - 4.4.i)
+    (1.2 + 3.4.i) - (-5.6 + 7.8.i) shouldEqual 6.8 - 4.4.i
   }
 
   test("*") {
-    ((√(2) - √(2).i) * (1 + √(3).i)) should equal (√(6) + √(2) + √(6).i - √(2).i)
+    (√(2) - √(2).i) * (1 + √(3).i) shouldEqual √(6) + √(2) + √(6).i - √(2).i
   }
 
   test("/") {
-    ((√(2) - √(2).i) / (1 + √(3).i)) should equal ((- √(6) + √(2) - √(6).i - √(2).i) / 4)
+    (√(2) - √(2).i) / (1 + √(3).i) shouldEqual (- √(6) + √(2) - √(6).i - √(2).i) / 4
   }
 
   test("conj") {
-    (1 - 2.i).conj should equal (1 + 2.i)
+    (1 - 2.i).conj shouldEqual 1 + 2.i
   }
 
   test("abs2") {
-    (3 + 4.i).abs2 should equal (25.0)
+    (3 + 4.i).abs2 shouldEqual 25.0
   }
 
   test("abs") {
-    (3 + 4.i).abs should equal (5.0)
+    (3 + 4.i).abs shouldEqual 5.0
   }
 
   test("exp") {
-    (log(8) + Pi.i / 6).exp should equal (4 * √(3) + 4.i)
+    (log(8) + Pi.i / 6).exp shouldEqual 4 * √(3) + 4.i
   }
 
   test("rad") {
-    (√(2) + √(2).i).rad should equal (Pi / 4)
+    (√(2) + √(2).i).rad shouldEqual Pi / 4
   }
 
   test("deg") {
-    (√(2) + √(2).i).deg should equal (45.0)
+    (√(2) + √(2).i).deg shouldEqual 45.0
   }
 }
