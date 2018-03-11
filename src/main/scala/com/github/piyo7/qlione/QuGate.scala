@@ -5,6 +5,11 @@ import com.github.piyo7.qlione.Util.RichInt
 import com.github.piyo7.qlione._OptNat._
 
 class QuGate[A <: _Nat] private(val matrix: QuMatrix[A, A]) {
+  override def equals(that: Any): Boolean = that match {
+    case that: QuGate[A] => this.matrix equalsWithoutGlobalPhase that.matrix
+    case _ => false
+  }
+
   def t: QuGate[A] = {
     QuGate(matrix.t)
   }

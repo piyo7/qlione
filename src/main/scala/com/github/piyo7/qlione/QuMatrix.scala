@@ -26,8 +26,19 @@ class QuMatrix[A <: _OptNat, B <: _OptNat] private(val map: Map[(Int, Int), Comp
   def /(x: Complex): QuMatrix[A, B] = QuMatrix(map.mapValues(_ / x))
 
   override def equals(that: Any): Boolean = that match {
-    case that: QuMatrix[A, B] => this.vA() == that.vA() && this.vB() == that.vB() && (this - that).map.isEmpty
-    case _  => false
+    case that: QuMatrix[A, B] if this.vA() == that.vA() && this.vB() == that.vB() =>
+      (this - that).map.isEmpty
+
+    case _ => false
+  }
+
+  def equalsWithoutGlobalPhase(that: Any): Boolean = that match {
+    case that: QuMatrix[A, B] =>
+      val thisFirstPhase = this.map.toSeq.sortBy(_._1).headOption.map(_._2.rad).getOrElse(0.0)
+      val thatFirstPhase = that.map.toSeq.sortBy(_._1).headOption.map(_._2.rad).getOrElse(0.0)
+      (this * thatFirstPhase.i.exp) equals (that * thisFirstPhase.i.exp)
+
+    case _ => false
   }
 
   def +(that: QuMatrix[A, B]): QuMatrix[A, B] = {

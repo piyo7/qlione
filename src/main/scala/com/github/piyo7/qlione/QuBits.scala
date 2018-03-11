@@ -6,6 +6,11 @@ import com.github.piyo7.qlione.Util.RichInt
 import com.github.piyo7.qlione._OptNat._
 
 class QuBits[A <: _Nat] private(val matrix: QuMatrix[A, _0]) {
+  override def equals(that: Any): Boolean = that match {
+    case that: QuBits[A] => this.matrix equalsWithoutGlobalPhase that.matrix
+    case _ => false
+  }
+
   def x[B <: _Nat](that: QuBits[B])(implicit c: _plus[A, B]): QuBits[c.Out] = {
     QuBits(matrix x that.matrix)
   }

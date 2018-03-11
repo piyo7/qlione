@@ -1,6 +1,7 @@
 package com.github.piyo7.qlione
 
 import com.github.piyo7.qlione.Complex._
+import com.github.piyo7.qlione.Util.√
 import com.github.piyo7.qlione._OptNat._
 import org.scalatest.{FunSuite, Matchers}
 
@@ -21,6 +22,11 @@ class QuMatrixTest extends FunSuite with Matchers {
     QuMatrix[_2, _3](Map((1, 4) -> (5 + 6.i))) shouldNot equal(QuMatrix[_2, _3](Map((1, 7) -> (5 + 6.i))))
     QuMatrix[_2, _3](Map((1, 4) -> (5 + 6.i))) shouldNot equal(QuMatrix[_2, _3](Map((1, 4) -> (7 + 6.i))))
     QuMatrix[_2, _3](Map((1, 4) -> (5 + 6.i))) shouldNot equal(QuMatrix[_2, _3](Map((1, 4) -> (5 + 6.i), (1, 1) -> QuMatrix.epsilon * 1.1)))
+  }
+
+  test("equalsWithoutGlobalPhase") {
+    QuMatrix[_2, _3](Map((1, 4) -> (5 + 6.i), (1, 1) -> 1)) equalsWithoutGlobalPhase
+      QuMatrix[_2, _3](Map((1, 4) -> (1 + -11.i) / √(2), (1, 1) -> (-1 -1.i) / √(2))) shouldEqual true
   }
 
   test("+") {
