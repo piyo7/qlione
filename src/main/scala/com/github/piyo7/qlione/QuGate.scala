@@ -34,7 +34,7 @@ object QuGate {
     assert(expectedConstantI.map.keys.forall(ab => ab._1 == ab._2), matrix.toString)
 
     val expectedConstant = expectedConstantI.map(0, 0)
-    assert(expectedConstantI === (expectedConstant * QuMatrix((0 until vA().get.pow2).map(a => (a, a) -> 1.r).toMap)), matrix.toString)
+    assert(expectedConstantI == (expectedConstant * QuMatrix((0 until vA().get.pow2).map(a => (a, a) -> 1.r).toMap)), matrix.toString)
 
     new QuGate(matrix / math.sqrt(expectedConstant.abs))
   }

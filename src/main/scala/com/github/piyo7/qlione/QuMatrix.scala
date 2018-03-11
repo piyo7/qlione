@@ -25,7 +25,10 @@ class QuMatrix[A <: _OptNat, B <: _OptNat] private(val map: Map[(Int, Int), Comp
 
   def /(x: Complex): QuMatrix[A, B] = QuMatrix(map.mapValues(_ / x))
 
-  def ===(that: QuMatrix[A, B]): Boolean = (this - that).map.isEmpty
+  override def equals(that: Any): Boolean = that match {
+    case that: QuMatrix[A, B] => this.vA() == that.vA() && this.vB() == that.vB() && (this - that).map.isEmpty
+    case _  => false
+  }
 
   def +(that: QuMatrix[A, B]): QuMatrix[A, B] = {
     QuMatrix((map.toSeq ++ that.map.toSeq).groupBy(_._1).mapValues(_.map(_._2).reduce(_ + _)))
@@ -57,30 +60,34 @@ class QuMatrix[A <: _OptNat, B <: _OptNat] private(val map: Map[(Int, Int), Comp
   }
 
   override def toString: String = {
-    val aBitsSize = vA().getOrElse(map.keys.map(_._1).max.bitsSize)
-    val bBitsSize = vB().getOrElse(map.keys.map(_._2).max.bitsSize)
+    val aBitsSize = vA().getOrElse(map.keys.map(_._1).reduceOption(_ max _).getOrElse(0).bitsSize)
+    val bBitsSize = vB().getOrElse(map.keys.map(_._2).reduceOption(_ max _).getOrElse(0).bitsSize)
 
     (for {
       ((a, b), v) <- map.toSeq.sortBy(_._1)
     } yield {
-      f"${v.re}%+.4f ${v.im}%+.4fi " + (if (aBitsSize > 0) f"|${a.bitsString(aBitsSize)}>" else "") + (if (bBitsSize > 0) f"<${b.bitsString(bBitsSize)}|" else "")
-    }).mkString(" ")
+      s"%+.${QuMatrix.epsilonScale}f %+.${QuMatrix.epsilonScale}f ".format(v.re, v.im) +
+        (if (aBitsSize > 0) f"|${a.bitsString(aBitsSize)}>" else "") + (if (bBitsSize > 0) f"<${b.bitsString(bBitsSize)}|" else "")
+    }).mkString(" ") + aBitsSize + bBitsSize + map
   }
 }
 
 object QuMatrix {
-  val epsilon = 1e-4
+  val epsilonScale: Int = 4
+  val epsilon: Double = math.pow(10, -epsilonScale)
 
   def apply[A <: _OptNat, B <: _OptNat](map: Map[(Int, Int), Complex])(implicit vA: _value[A], vB: _value[B]): QuMatrix[A, B] = {
     for (ai <- vA()) {
-      assert(map.keys.map(_._1).max < ai.pow2, map.toString)
+      assert(map.keys.map(_._1).reduceOption(_ min _).getOrElse(0) >= 0, map.toString)
+      assert(map.keys.map(_._1).reduceOption(_ max _).getOrElse(0) < ai.pow2, map.toString)
     }
 
     for (bi <- vB()) {
-      assert(map.keys.map(_._2).max < bi.pow2, map.toString)
+      assert(map.keys.map(_._2).reduceOption(_ min _).getOrElse(0) >= 0, map.toString)
+      assert(map.keys.map(_._2).reduceOption(_ max _).getOrElse(0) < bi.pow2, map.toString)
     }
 
-    new QuMatrix(map.filter(_._2.abs2 >= epsilon))(vA, vB)
+    new QuMatrix(map.filter(_._2.abs >= epsilon))(vA, vB)
   }
 
   implicit class ComplexMulQuMatrix(val c: Complex) {
