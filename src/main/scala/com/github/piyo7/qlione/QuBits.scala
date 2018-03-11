@@ -61,9 +61,9 @@ object QuBits {
   }
 
   def apply[A <: _Nat](matrix: QuMatrix[A, _0]): QuBits[A] = {
-    val abs2 = matrix.map.map(_._2.abs2).sum
-    assert(abs2 > 0, matrix.toString)
-    new QuBits(matrix / math.sqrt(abs2))
+    val abs = math.sqrt(matrix.map.map(_._2.abs2).sum)
+    assert(abs > 0, matrix.toString)
+    new QuBits(matrix / abs)
   }
 
   def apply[A <: _Nat](seq: Seq[Complex])(implicit vA: _value[A]): QuBits[A] = {
