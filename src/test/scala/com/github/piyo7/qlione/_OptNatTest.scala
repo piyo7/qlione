@@ -5,9 +5,9 @@ import org.scalatest.{FunSuite, Matchers}
 
 class _OptNatTest extends FunSuite with Matchers {
   test("_value") {
-    implicitly[_value[_none]].value should equal(None)
-    implicitly[_value[_0]].value should equal(Some(0))
-    implicitly[_value[_9]].value should equal(Some(9))
+    implicitly[_value[_none]].value shouldEqual None
+    implicitly[_value[_0]].value shouldEqual Some(0)
+    implicitly[_value[_9]].value shouldEqual Some(9)
   }
 
   test("_lt") {
@@ -35,12 +35,12 @@ class _OptNatTest extends FunSuite with Matchers {
   }
 
   test("_pre") {
-    implicitly[_pre[_1]].vOut() should equal(Some(0))
-    implicitly[_pre[_7]].vOut() should equal(Some(6))
+    implicitly[_pre[_1]].vOut() shouldEqual Some(0)
+    implicitly[_pre[_7]].vOut() shouldEqual Some(6)
   }
 
   test("_plus") {
-    implicitly[_plus[_1, _2]].vOut() should equal(Some(3))
-    implicitly[_plus[_5, _0]].vOut() should equal(Some(5))
+    implicitly[_plus[_1, _2]].vOut() shouldEqual Some(3)
+    implicitly[_plus[_5, _0]].vOut() shouldEqual Some(5)
   }
 }
