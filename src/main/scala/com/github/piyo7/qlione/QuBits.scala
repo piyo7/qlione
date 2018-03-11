@@ -15,6 +15,12 @@ class QuBits[A <: _Nat] private(val matrix: QuMatrix[A, _0]) {
     QuBits(matrix x that.matrix)
   }
 
+  def reverse: QuBits[A] = {
+    implicit val vA: _value[A] = matrix.vA
+
+    QuBits(QuMatrix[A, _0](matrix.map.map { case ((a, 0), v) => ((a.reverseBits(vA().get), 0), v) }))
+  }
+
   def measure[M <: _Nat](implicit pA: _pre[A], vM: _value[M], lMA: M _lt A, random: Random): QuBits.Measured[A, pA.Out, M] = {
     implicit val vA: _value[A] = matrix.vA
     implicit val vpA: _value[pA.Out] = pA.vOut

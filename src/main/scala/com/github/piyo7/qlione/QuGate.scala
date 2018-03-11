@@ -18,6 +18,12 @@ class QuGate[A <: _Nat] private(val matrix: QuMatrix[A, A]) {
     QuBits(matrix * that.matrix)
   }
 
+  def *(that: QuMatrix[_none, _0]): QuBits[A] = {
+    implicit val vA: _value[A] = matrix.vA
+
+    QuBits(matrix * that.bits[A].matrix)
+  }
+
   def *(that: QuGate[A]): QuGate[A] = {
     QuGate(matrix * that.matrix)
   }

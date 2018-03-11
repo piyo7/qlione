@@ -18,6 +18,8 @@ object Util {
       val str = i.toBinaryString
       Integer.parseInt(str.take(str.length - pos - 1) + str.drop(str.length - pos), 2)
     }
+
+    def reverseBits(size: Int): Int = Integer.parseInt(bitsString(size).reverse, 2)
   }
 
 }

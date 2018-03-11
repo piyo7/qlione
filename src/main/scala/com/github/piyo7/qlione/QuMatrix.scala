@@ -9,6 +9,10 @@ class QuMatrix[A <: _OptNat, B <: _OptNat] private(val map: Map[(Int, Int), Comp
     QuBits(QuMatrix[C, _0](map))
   }
 
+  def bit(implicit eA: A =:= _none, eB: B =:= _0): QuBits[_1] = {
+    QuBits(QuMatrix[_1, _0](map))
+  }
+
   def gate[C <: _Nat](implicit eA: A =:= _none, eB: B =:= _none, vC: _value[C]): QuGate[C] = {
     QuGate(QuMatrix[C, C](map))
   }
