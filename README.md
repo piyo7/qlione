@@ -50,6 +50,23 @@ object Main extends App {
 }
 ```
 
+## Getting Started
+
+Qlione is not published anywhere yet.
+However, you can publish it to local against Scala 2.12.x.
+
+```sh
+git clone https://github.com/piyo7/qlione.git
+cd qlione
+sbt publishLocal
+```
+
+If you're using SBT, add the following line to your build file:
+
+```scala
+libraryDependencies += "com.github.piyo7" %% "qlione" % "0.1.0-SNAPSHOT"
+```
+
 ## Motivation
 
 http://2018.scalamatsuri.org/en/candidates/TorigoeTakatomo_1/
