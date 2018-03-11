@@ -74,12 +74,12 @@ class QuMatrix[A <: _OptNat, B <: _OptNat] private(val map: Map[(Int, Int), Comp
     val aBitsSize = vA().getOrElse(map.keys.map(_._1).reduceOption(_ max _).getOrElse(0).bitsSize)
     val bBitsSize = vB().getOrElse(map.keys.map(_._2).reduceOption(_ max _).getOrElse(0).bitsSize)
 
-    (for {
+    s"[${vA().map(_.pow2.toString).getOrElse("?")} x ${vB().map(_.pow2.toString).getOrElse("?")}] " + (for {
       ((a, b), v) <- map.toSeq.sortBy(_._1)
     } yield {
-      s"%+.${QuMatrix.epsilonScale}f %+.${QuMatrix.epsilonScale}f ".format(v.re, v.im) +
+      s"%+.${QuMatrix.epsilonScale}f %+.${QuMatrix.epsilonScale}fi ".format(v.re, v.im) +
         (if (aBitsSize > 0) f"|${a.bitsString(aBitsSize)}>" else "") + (if (bBitsSize > 0) f"<${b.bitsString(bBitsSize)}|" else "")
-    }).mkString(" ") + aBitsSize + bBitsSize + map
+    }).mkString(" ")
   }
 }
 
