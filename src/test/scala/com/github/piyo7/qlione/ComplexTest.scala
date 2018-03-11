@@ -53,10 +53,10 @@ class ComplexTest extends FunSuite with Matchers {
   }
 
   test("rad") {
-    (√(2) + √(2).i).rad shouldEqual Pi / 4
+    (√(3) - 1.i).rad shouldEqual -Pi / 6
   }
 
   test("deg") {
-    (√(2) + √(2).i).deg shouldEqual 45.0
+    (√(3) - 1.i).deg shouldEqual -30.0
   }
 }
