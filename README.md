@@ -1,6 +1,4 @@
-[![CircleCI](https://circleci.com/gh/piyo7/qlione.svg?style=svg)](https://circleci.com/gh/piyo7/qlione)
-
-# Qlione
+# Qlione [![CircleCI](https://circleci.com/gh/piyo7/qlione.svg?style=svg)](https://circleci.com/gh/piyo7/qlione)
 
 Qlione is a quantum simulator with pretty circuit DSL in Scala.
 
@@ -10,6 +8,6 @@ http://2018.scalamatsuri.org/en/candidates/TorigoeTakatomo_1/
 
 ## Origin of Name
 
-```scala
-"Clione".replace("Classic".head, "Quantum".head)
-```
+| `"Qunatum".head` | `"Clione".tail` |
+|---|---|
+|![quantum](images/quantum.png)|![clione](images/clione.png)|
