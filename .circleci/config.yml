@@ -9,13 +9,13 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: key-{{ checksum "project/build.properties" }}-{{ checksum "project/plugins.sbt" }}-{{ checksum "build.sbt" }}
+          key: key-{{ checksum "project/build.properties" }}-{{ checksum "build.sbt" }}
       - run: sbt test:compile
       - save_cache:
           paths:
             - ~/.ivy2
             - ~/.sbt
-          key: key-{{ checksum "project/build.properties" }}-{{ checksum "project/plugins.sbt" }}-{{ checksum "build.sbt" }}
+          key: key-{{ checksum "project/build.properties" }}-{{ checksum "build.sbt" }}
       - run: sbt test
       - store_test_results:
           path: target/test-reports/
