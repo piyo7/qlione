@@ -69,7 +69,9 @@ libraryDependencies += "com.github.piyo7" %% "qlione" % "0.1.0-SNAPSHOT"
 
 ## Motivation
 
-http://2018.scalamatsuri.org/en/candidates/TorigoeTakatomo_1/
+See slides on ScalaMatsuri 2018.
+
+https://www.slideshare.net/TaokatomoTorigoe/lets-simulate-a-quantum-computer-with-pretty-scala
 
 ## Origin of Name
 
