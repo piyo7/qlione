@@ -6,7 +6,13 @@ import org.scalatest.{FunSuite, Matchers}
 
 import scala.math.{sqrt => √}
 
-class QuMatrixTest extends FunSuite with Matchers {
+class QuMatrixTest extends FunSuite {
+
+  object Matchers extends Matchers
+
+  // avoid conflict between Matchers.< and qlione.<
+  import Matchers.{convertToAnyShouldWrapper, equal}
+
   test("t") {
     QuMatrix[_1, _2](Map((0, 3) -> (1 - 5.i))).t shouldEqual QuMatrix[_2, _1](Map((3, 0) -> (1 + 5.i)))
   }
@@ -27,7 +33,7 @@ class QuMatrixTest extends FunSuite with Matchers {
 
   test("equalsWithoutGlobalPhase") {
     QuMatrix[_2, _3](Map((1, 4) -> (5 + 6.i), (1, 1) -> 1)) equalsWithoutGlobalPhase
-      QuMatrix[_2, _3](Map((1, 4) -> (1 + -11.i) / √(2), (1, 1) -> (-1 -1.i) / √(2))) shouldEqual true
+      QuMatrix[_2, _3](Map((1, 4) -> (1 + -11.i) / √(2), (1, 1) -> (-1 - 1.i) / √(2))) shouldEqual true
   }
 
   test("+") {
@@ -63,11 +69,8 @@ class QuMatrixTest extends FunSuite with Matchers {
   }
 
   test("bra-ket notation") {
-    // escape from shadowing by Matchers
-    import com.github.piyo7.qlione.{< => \<}
-
-    (\<(1).| * |(2).>) shouldEqual QuMatrix[_0, _0](Map.empty)
-    (\<(3).| * |(3).>) shouldEqual QuMatrix[_0, _0](Map((0, 0) -> 1.r))
-    (|(4).> * \<(5).|) shouldEqual QuMatrix[_none, _none](Map((4, 5) -> 1.r))
+    (<(1).| * |(2).>) shouldEqual QuMatrix[_0, _0](Map.empty)
+    (<(3).| * |(3).>) shouldEqual QuMatrix[_0, _0](Map((0, 0) -> 1.r))
+    (|(4).> * <(5).|) shouldEqual QuMatrix[_none, _none](Map((4, 5) -> 1.r))
   }
 }
